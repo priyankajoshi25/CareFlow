@@ -55,6 +55,15 @@ app.use('/api/*', (req, res) => {
     message: `API endpoint '${req.originalUrl}' not found.`
   });
 });
+// Serve React Frontend
+const frontendPath = path.join(__dirname, '../frontend/dist');
+
+app.use(express.static(frontendPath));
+
+// React Router fallback
+app.get('*', (req, res) => {
+  res.sendFile(path.join(frontendPath, 'index.html'));
+});
 
 // Central Error Handling Middleware
 app.use(errorHandler);
